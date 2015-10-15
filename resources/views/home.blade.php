@@ -15,7 +15,7 @@
                     <h3 class="middle">Ranking</h3>
                     <ol>
                         <li>Young, 46, 2015-10-11 20:21:34</li>
-                        <li>Younger, 42, 2015-10-08  08:05:55</li>
+                        <li>Younger, 42, 2015-10-08 08:05:55</li>
                     </ol>
                 </div>
             </div>
@@ -24,13 +24,15 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3 class="middle">Enter your Student ID and Go!</h3>
+
                     <form class="form-horizontal" action="/game" method="post">
                         <fieldset>
                             <!--<legend>Legend</legend>-->
                             <div class="form-group">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" id="studentId" placeholder="Student ID">
+                                    <input type="text" class="form-control" name="id"
+                                           placeholder="Student ID">
                                 </div>
                                 <div class="col-md-2"></div>
                             </div>
