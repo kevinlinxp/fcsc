@@ -6,3 +6,4 @@ Homestead.json
 .vagrant
 storage/database.sqlite
 database/seeds/StudentTableSeeder.php
+.idea
