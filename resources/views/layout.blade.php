@@ -73,7 +73,7 @@
                 $.material.init();
             });
         </script>
-
+        @yield('footer_script')
     </body>
 
 </html>

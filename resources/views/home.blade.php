@@ -25,13 +25,13 @@
                 <div class="col-md-8">
                     <h3 class="middle">Enter your Student ID and Go!</h3>
 
-                    <form class="form-horizontal" action="/game" method="post">
+                    <form class="form-horizontal" action="/prepare" method="get">
                         <fieldset>
                             <!--<legend>Legend</legend>-->
                             <div class="form-group">
                                 <div class="col-md-2"></div>
                                 <div class="col-md-8">
-                                    <input type="text" class="form-control" name="id"
+                                    <input type="text" class="form-control" name="studentId"
                                            placeholder="Student ID">
                                 </div>
                                 <div class="col-md-2"></div>
@@ -41,7 +41,6 @@
                                     <button type="submit" class="btn btn-primary">Go!</button>
                                 </div>
                             </div>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         </fieldset>
                     </form>
                 </div>

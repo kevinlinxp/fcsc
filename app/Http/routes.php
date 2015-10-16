@@ -12,4 +12,8 @@ Route::get('/contact', 'PageController@contact');
 
 Route::get('/about', 'PageController@about');
 
-Route::post('/game', 'GameController@start');
+Route::get('/prepare', 'GameController@prepare');
+
+Route::post('/start', 'GameController@asyncStartGame');
+
+Route::post('/guess', 'GameController@asyncGuess');
