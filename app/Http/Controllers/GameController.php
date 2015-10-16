@@ -56,12 +56,12 @@ class GameController extends Controller
             ]);
         }
 
-        // Time check
+        // Time check, should be more than 6 hrs since last play
         $lastPlayed = Carbon::parse($student['lastPlayed']);
-        if (Carbon::now()->diffInSeconds($lastPlayed) <= 6) {
+        if (Carbon::now()->diffInSeconds($lastPlayed) <= 16) {
             return response()->json([
                 'result' => 'limited',
-                'reason' => 'time'
+                'reason' => 'not time yet'
             ]);
         }
         $student['lastPlayed'] = Carbon::now();
@@ -72,8 +72,8 @@ class GameController extends Controller
         $currentGame->newRound();
 
         return response()->json([
-            'result' => 'succeed',
-            'gameData' => [
+            'result' => 'roundStarted',
+            'roundData' => [
                 'roundCount' => $currentGame->getRoundCount(),
             ]
         ]);
@@ -81,26 +81,26 @@ class GameController extends Controller
 
     public function asyncGuess(Request $request)
     {
-        if ($request->ajax() && $request->isMethod('post')) {
-
-            // 1. Generate a game record and store it to database
-
-            // 2.
-
-            // 1. Generate and put the secret string to session
-            $request->session()->put('secret', GameController::randomString());
-
-            $id = $request->input('id');
-            $student = Student::find($id);
-            if ($student) {
-                return response()->json([
-                    'result' => 'succeed'
-                ]);
-            } else {
-                return response()->json([
-                    'result' => 'failed'
-                ]);
-            }
+        // Must be ajax post request
+        if (!$request->ajax() || !$request->isMethod('post')) {
+            // TODO give error response
+            echo "oops";
+            exit();
         }
+
+        // Retrieve the current student id from session.
+        $studentId = $request->session()->get(GameController::$KEY_CURRENT_STUDENT_ID);
+        if (!$studentId) {
+            return response()->json([
+                'result' => 'error',
+                'reason' => 'session expired.'
+            ]);
+        }
+
+        $guess = $request->input('guess');
+        $currentGame = $request->session()->get(GameController::$KEY_CURRENT_GAME);
+
+        $guessResult = $currentGame->guess($guess);
+
     }
 }

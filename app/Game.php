@@ -9,6 +9,8 @@
 namespace App;
 
 
+use Carbon\Carbon;
+
 class Game
 {
 
@@ -37,6 +39,8 @@ class Game
 
     public function guess($studentGuess)
     {
+        $this->round_guessed_count++;
+        $this->round_provisional_mark--;
         // 1. check time elapsed (te) since round_start_ts, if te/(30*1000)>= provisional_mark, nextRound()
         // 2.0. Get the bull, cow string
         // 2.1. If not '4B0C', provisional_mark--, return bull, cow string
@@ -53,8 +57,8 @@ class Game
     {
         $this->round_count++;
         $this->round_secret = Game::randomString();
-        $this->round_start_ts = time();
-        $this->round_provisional_mark = 0;
+        $this->round_start_ts = Carbon::now();
+        $this->round_provisional_mark = 10;
         $this->round_guessed_count = 0;
     }
 

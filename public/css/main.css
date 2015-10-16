@@ -2,6 +2,19 @@
     text-align:center;
 }
 
+#alert {
+     z-indez:6000;
+     position:fixed;
+     width: 500px;
+     height: 200px;
+     top:0;
+     left:0;
+ }
+
 .middle {
     text-align: center;
+}
+
+input[type=text] {
+    min-height: 36px;
 }
