@@ -25,10 +25,10 @@ class Game
     }
 
     private $round_count;
-    private $round_start_ts;
-    private $round_secret;
+    //private $round_start_ts;
+    public $round_secret;
     private $round_guessed_count;
-    private $round_provisional_mark;
+    //private $round_provisional_mark;
     private $total_mark;
 
     function __construct()
@@ -40,25 +40,20 @@ class Game
     public function guess($studentGuess)
     {
         $this->round_guessed_count++;
-        $this->round_provisional_mark--;
-        // 1. check time elapsed (te) since round_start_ts, if te/(30*1000)>= provisional_mark, nextRound()
-        // 2.0. Get the bull, cow string
-        // 2.1. If not '4B0C', provisional_mark--, return bull, cow string
-        // 2.2. If yes, sumThisRound() and newRound()
     }
 
     public function sumThisRound()
     {
-        $round_mark = max($this->round_provisional_mark - (time() - $this->round_start_ts) / (30 * 1000), 0);
-        $this->total_mark += $round_mark;
+        // $round_mark = max($this->round_provisional_mark - (time() - $this->round_start_ts) / (30 * 1000), 0);
+        $this->total_mark += (10 - $this->round_guessed_count);
     }
 
     public function newRound()
     {
         $this->round_count++;
         $this->round_secret = Game::randomString();
-        $this->round_start_ts = Carbon::now();
-        $this->round_provisional_mark = 10;
+        // $this->round_start_ts = Carbon::now();
+        // $this->round_provisional_mark = 10;
         $this->round_guessed_count = 0;
     }
 

@@ -75,6 +75,7 @@ class GameController extends Controller
             'result' => 'roundStarted',
             'roundData' => [
                 'roundCount' => $currentGame->getRoundCount(),
+                'secret' => $currentGame->round_secret
             ]
         ]);
     }
