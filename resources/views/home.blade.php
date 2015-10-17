@@ -57,7 +57,7 @@
                 for(var index in jsonData) {
                     var studentInfo = jsonData[index];
                     console.log(jsonData[index]);
-                    jQuery('<li>'+studentInfo.firstName + ' ' + studentInfo.lastName +', Highest Mark: <b>'+studentInfo.highestMark +'</b>, Date: '+ studentInfo.lastPlayed +' </li>').appendTo('#rankingList');
+                    jQuery('<li>'+studentInfo.firstName + ' ' + studentInfo.lastName +', Highest Point Score: <b>'+studentInfo.highestMark +'</b>, Date: '+ studentInfo.lastPlayed +' </li>').appendTo('#rankingList');
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);
