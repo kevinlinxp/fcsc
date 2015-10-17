@@ -89,7 +89,7 @@ class GameController extends Controller
             exit();
         }
 
-        $students = Student::where('highestMark', '>=', 0)->orderBy('highestMark','DESC')->get();
+        $students = Student::where('highestMark', '>', 0)->orderBy('highestMark','DESC')->get();
         if (!$students) {
             return response()->json([
                 'result' => 'error',
