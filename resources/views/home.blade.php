@@ -8,23 +8,11 @@
         <div class="col-md-2"></div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-8">
-                    <h3 class="middle">Ranking</h3>
-                    <ol>
-                        <li>Young, 46, 2015-10-11 20:21:34</li>
-                        <li>Younger, 42, 2015-10-08 08:05:55</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6" style="border-left: 1px solid #849aa5;">
-            <div class="row">
+                <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <h3 class="middle">Enter your Student ID and Go!</h3>
-
                     <form class="form-horizontal" action="/prepare" method="get">
                         <fieldset>
                             <!--<legend>Legend</legend>-->
@@ -32,7 +20,7 @@
                                 <div class="col-md-2"></div>
                                 <div class="col-md-8">
                                     <input type="text" class="form-control" name="studentId"
-                                           placeholder="Student ID">
+                                           placeholder="Student ID (Starts with 'a')">
                                 </div>
                                 <div class="col-md-2"></div>
                             </div>
@@ -44,8 +32,41 @@
                         </fieldset>
                     </form>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-2"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6 middle">
+                    <h3 class="middle">Ranking</h3>
+                    <ol id="rankingList">
+                    </ol>
+                </div>
+                <div class="col-md-3"></div>
             </div>
         </div>
     </div>
+@stop
+
+@section('footer_script')
+    <script>
+        function getRankingList() {
+            jQuery.ajax('ranking', {
+                method: 'GET',
+            }).done(function (jsonData, textStatus, jqXHR) {
+                jQuery('#rankingList').empty();
+                for(var index in jsonData) {
+                    var studentInfo = jsonData[index];
+                    console.log(jsonData[index]);
+                    jQuery('<li>'+studentInfo.firstName + ' ' + studentInfo.lastName +', Highest Mark: <b>'+studentInfo.highestMark +'</b>, Date: '+ studentInfo.lastPlayed +' </li>').appendTo('#rankingList');
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
+            });
+            ;
+        }
+
+        jQuery(document).ready(function () {
+            getRankingList();
+        });
+    </script>
 @stop

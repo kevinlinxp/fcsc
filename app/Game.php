@@ -24,17 +24,19 @@ class Game
         return implode("", $result);
     }
 
-    private $round_count;
-    //private $round_start_ts;
     public $round_secret;
+
+    private $round_count;
+    private $round_start_ts;
     private $round_guessed_count;
-    //private $round_provisional_mark;
-    private $total_mark;
+    private $round_points;
+    private $total_points;
+    private $round_correctness;
 
     function __construct()
     {
         $this->round_count = 0;
-        $this->total_mark = 0;
+        $this->total_points = 0;
     }
 
     public function guess($studentGuess)
@@ -45,29 +47,61 @@ class Game
         $B = 0;
 
         for ($i = 0; $i < 4; $i++) {
-            $index = strpos($this->round_secret, $studentGuess->substr($i));
-            if ($index == $i) {
+            $index = strpos($this->round_secret, $studentGuess{$i});
+            //if(is_numeric($index)){
+            //    continue;
+            //}
+            if ($index === $i) {
                 $A++;
-            } elseif ($index >= 0) {
+            } else if(is_numeric($index)) {
                 $B++;
             }
+//            if (!$index ) {
+//                if ($index == $i) {
+//                    $A++;
+//                } elseif ($index >= 0) {
+//                    $B++;
+//                }
+//            }
         }
+
+        $this->round_correctness = ($A == 4);
 
         return $A . 'A' . $B . 'B';
     }
 
-    public function sumThisRound()
+    public function getRoundPoints(){
+        return $this->round_points;
+    }
+
+    public function getTotalPoints(){
+        return $this->total_points;
+    }
+
+    public function getCorrectness(){
+        return $this->round_correctness;
+    }
+
+    public function getRoundGuessCount() {
+        return $this->round_guessed_count;
+    }
+
+    public function completeCurrentRound()
     {
-        // $round_mark = max($this->round_provisional_mark - (time() - $this->round_start_ts) / (30 * 1000), 0);
-        $this->total_mark += (10 - $this->round_guessed_count);
+        $this->round_points = (10 - $this->round_guessed_count + 1);
+
+        $elapsedSeconds = Carbon::now()->diffInSeconds($this->round_start_ts);
+        $this->round_points = max($this->round_points - floor($elapsedSeconds / 30), 0);
+
+        $this->total_points += $this->round_points;
     }
 
     public function newRound()
     {
         $this->round_count++;
         $this->round_secret = Game::randomString();
-        // $this->round_start_ts = Carbon::now();
-        // $this->round_provisional_mark = 10;
+        $this->round_start_ts = Carbon::now();
+        $this->round_points = 0;
         $this->round_guessed_count = 0;
     }
 

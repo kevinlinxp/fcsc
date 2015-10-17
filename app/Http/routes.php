@@ -17,3 +17,5 @@ Route::get('/prepare', 'GameController@prepare');
 Route::post('/start', 'GameController@asyncStartGame');
 
 Route::post('/guess', 'GameController@asyncGuess');
+
+Route::get('/ranking', 'GameController@asyncRanking');

@@ -22,6 +22,21 @@
                                                      placeholder="Input 4 digits only">
                     <button id="btnGuess" class="btn btn-info">Guess!</button>
                 </div>
+                <div class="col-md-12 middle">
+                    <span id="guessPoints" style="color: red"></span>
+                </div>
+                <div class="col-md-12 middle">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td></td>
+                            <td>Guess</td>
+                            <td>Result</td>
+                        </tr>
+                        </thead>
+                        <tbody id="guessTableBody"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="col-md-3"></div>
@@ -36,7 +51,7 @@
             jQuery.ajax('start', {
                 method: 'POST',
                 //data: {
-                    // '_token': '{{ csrf_token() }}',
+                // '_token': '{{ csrf_token() }}',
                 //    'studentId': '{{$student['id']}}'
                 //},
                 beforeSend: function (xhr) {
@@ -64,18 +79,58 @@
         function ajaxGuess(guessValue) {
             jQuery.ajax('guess', {
                 method: 'POST',
-                beforeSend: function (xhr) {
-                    var token = '{{ csrf_token() }}';
-                    if (token) {
-                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                    }
-                },
+                //beforeSend: function (xhr) {
+                //var token = '{{ csrf_token() }}';
+                //if (token) {
+                //    return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                // }
+                //},
+                data: {
+                    'guess': guessValue
+                }
             }).done(function (jsonData, textStatus, jqXHR) {
-                // TODO
+                console.log(jsonData);
+
+                var resultText = jsonData['roundData']['resultText'];
+                var guessCount = jsonData['roundData']['guessCount'];
+                var totalPoints = jsonData['roundData']['totalPoints'];
+                var roundPoints = jsonData['roundData']['roundPoints'];
+                var roundCount = jsonData['roundData']['roundCount'];
+                var correctness = jsonData['roundData']['correctness'];
+
+                jQuery('#guessPoints').text('Your total points received: '+totalPoints);
+
+                jQuery('<tr><td>' + guessCount + '</td><td>' + jQuery('#guess').val() + '</td><td>' + resultText + '</td></tr>').prependTo('#guessTableBody');
+                jQuery('#guess').val('');
+
+                if(correctness){
+                    if(roundCount<5){
+                        jQuery('<tr><td colspan="3">Congratulations! You received ' + roundPoints  + ' points in this round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3">Round ' + (roundCount+1) + ' has started!</td></tr>').prependTo('#guessTableBody');
+                    }
+                    else{
+                        jQuery('<tr><td colspan="3">Congratulations! You received ' + roundPoints  + ' points in this final round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3">You have finished the game! See you!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('#btnGuess').prop('disabled',true);
+                    }
+                }
+                else if(guessCount % 10 == 0){
+                    if(roundCount < 5) {
+                        jQuery('<tr><td colspan="3">You reach guess number limit in this round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3">Round ' + (roundCount+1) + ' has started!</td></tr>').prependTo('#guessTableBody');
+                    }
+                    else {
+                        jQuery('<tr><td colspan="3">You reach guess number limit in this final round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3">You have finished the game! See you!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('#btnGuess').prop('disabled',true);
+                    }
+                }
+
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);
                 alert("Sorry, request failed due to: " + errorThrown);
-            });;
+            });
+            ;
         }
 
         jQuery(document).ready(function () {
@@ -93,10 +148,27 @@
                     alert('Please input 4 digits only.');
                     return;
                 }
+                else if(hasDuplicates(guessValue)){
+                    alert('Please input 4 different digits.');
+                    return;
+                }
                 ajaxGuess(guessValue);
             });
 
         })
+
+        function hasDuplicates(array){
+            var valueSoFar = Object.create(null);
+
+            for (var i = 0; i < array.length; i++){
+                var value = array[i];
+                if(value in valueSoFar) {
+                    return true;
+                }
+
+                valueSoFar[value] = true;
+            }
+        }
 
         function startRound(roundData) {
             var roundCount = roundData['roundCount'];
@@ -108,9 +180,6 @@
                     });
                 }
             });
-
-            jQuery('#tempSecret').text(roundData['secret']);
-
         }
 
         function reportError(errorData) {

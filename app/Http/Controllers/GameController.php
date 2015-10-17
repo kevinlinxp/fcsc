@@ -74,10 +74,30 @@ class GameController extends Controller
         return response()->json([
             'result' => 'roundStarted',
             'roundData' => [
-                'roundCount' => $currentGame->getRoundCount(),
-                'secret' => $currentGame->round_secret
+                'roundCount' => $currentGame->getRoundCount()
+                //'secret' => $currentGame->round_secret
             ]
         ]);
+    }
+
+    public function asyncRanking(Request $request)
+    {
+        // Must be ajax post request
+        if (!$request->ajax() || !$request->isMethod('get')) {
+            // TODO give error response
+            echo "oops";
+            exit();
+        }
+
+        $students = Student::where('highestMark', '>=', 0)->orderBy('highestMark','DESC')->get();
+        if (!$students) {
+            return response()->json([
+                'result' => 'error',
+                'reason' => 'student data do not exist.'
+            ]);
+        }
+
+        return response()->json($students);
     }
 
     public function asyncGuess(Request $request)
@@ -100,8 +120,47 @@ class GameController extends Controller
 
         $guess = $request->input('guess');
         $currentGame = $request->session()->get(GameController::$KEY_CURRENT_GAME);
-
         $guessResult = $currentGame->guess($guess);
+        $roundCount = $currentGame->getRoundCount();
+        $guessCount = $currentGame->getRoundGuessCount();
+        $correctness = $currentGame->getCorrectness();
+        $roundPoints = 0;
+        $totalPoints = $currentGame->getTotalPoints();
 
+        if($correctness || ($roundCount < 5 && $guessCount == 10)){
+            $currentGame->completeCurrentRound();
+            $roundPoints = $currentGame->getRoundPoints();
+            $totalPoints = $currentGame->getTotalPoints();
+            $currentGame->newRound();
+
+            // update points record and find out ranking info.
+            // Retrieve the student entity from database.
+            $student = Student::find($studentId);
+            if (!$student) {
+                return response()->json([
+                    'result' => 'error',
+                    'reason' => 'student data do not exist.'
+                ]);
+            }
+            if($student['highestMark']<$totalPoints){
+                // update
+                if($student['id'] != 'a1203212'){
+                   $student['highestMark'] = $totalPoints;
+                   $student->save();
+                }
+            }
+        }
+
+        return response()->json([
+            'result' => 'guessResult',
+            'roundData' => [
+                'roundCount' => $roundCount,
+                'resultText' => $guessResult,
+                'guessCount' => $guessCount,
+                'roundPoints' => $roundPoints,
+                'totalPoints' => $totalPoints,
+                'correctness' => $correctness
+            ]
+        ]);
     }
 }
