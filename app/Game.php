@@ -40,6 +40,20 @@ class Game
     public function guess($studentGuess)
     {
         $this->round_guessed_count++;
+
+        $A = 0;
+        $B = 0;
+
+        for ($i = 0; $i < 4; $i++) {
+            $index = strpos($this->round_secret, $studentGuess->substr($i));
+            if ($index == $i) {
+                $A++;
+            } elseif ($index >= 0) {
+                $B++;
+            }
+        }
+
+        return $A . 'A' . $B . 'B';
     }
 
     public function sumThisRound()
@@ -57,7 +71,8 @@ class Game
         $this->round_guessed_count = 0;
     }
 
-    public function getRoundCount () {
+    public function getRoundCount()
+    {
         return $this->round_count;
     }
 
