@@ -13,16 +13,17 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <h3 class="middle">Enter your Student ID and Go!</h3>
+
                     <form class="form-horizontal" action="/prepare" method="get">
                         <fieldset>
                             <!--<legend>Legend</legend>-->
                             <div class="form-group">
-                                <div class="col-md-2"></div>
-                                <div class="col-md-8">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
                                     <input type="text" class="form-control" name="studentId"
                                            placeholder="Student ID (Starts with 'a')">
                                 </div>
-                                <div class="col-md-2"></div>
+                                <div class="col-md-4"></div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12 middle">
@@ -36,10 +37,8 @@
             </div>
             <div class="row">
                 <div class="col-md-3"></div>
-                <div class="col-md-6 middle">
-                    <h3 class="middle">Ranking</h3>
-                    <ol id="rankingList">
-                    </ol>
+                <div id="rankContainer" class="col-md-6 middle">
+
                 </div>
                 <div class="col-md-3"></div>
             </div>
@@ -53,11 +52,14 @@
             jQuery.ajax('ranking', {
                 method: 'GET',
             }).done(function (jsonData, textStatus, jqXHR) {
-                jQuery('#rankingList').empty();
-                for(var index in jsonData) {
-                    var studentInfo = jsonData[index];
-                    console.log(jsonData[index]);
-                    jQuery('<li>'+studentInfo.firstName + ' ' + studentInfo.lastName +', Highest Point Score: <b>'+studentInfo.highestMark +'</b>, Date: '+ studentInfo.lastPlayed +' </li>').appendTo('#rankingList');
+                jQuery('#rankContainer').empty();
+                if (jsonData.length > 0) {
+                    jQuery('<h3 class="middle">Ranking</h3>').appendTo('#rankContainer');
+                    jQuery('<table class="table"><thead class="middle"><th>#</th><th>Name</th><th>Score</th><th>Date</th></thead><tbody id="rankTableBody"></tbody></table>').appendTo('#rankContainer');
+                    for (var index in jsonData) {
+                        var studentInfo = jsonData[index];
+                        jQuery('<tr><td>'+index+'</td><td>' + studentInfo.firstName + ' ' + studentInfo.lastName + '</td><td>' + studentInfo.highestMark + '</td><td>' + studentInfo.lastPlayed + ' </td></tr>').appendTo('#rankTableBody');
+                    }
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);

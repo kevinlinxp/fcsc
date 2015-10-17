@@ -12,9 +12,20 @@
         <div class="col-md-3"></div>
         <div class="col-md-6">
             <div id="row_toStart" class="row">
-                <div class="col-md-6 middle lead">Last played: <span>{{$student['lastPlayed']}}</span></div>
-                <div class="col-md-6">
-                    <button id="btnStart" class="btn btn-primary">Start</button>
+                <div class="col-md-12">
+                    <div class="middle" style="font-size:18px">Last played: <span>{{$student['lastPlayed']}}</span></div>
+                    <div>
+                        <fieldset class="scheduler-border">
+                            <legend class="scheduler-border middle" style="color:blue; width:60px; margin-bottom: 0px;">Note</legend>
+                            <ul>
+                                <li>You need to play 5 rounds to complete one game.</li>
+                                <li>In each round, you will have up to 10 guesses.</li>
+                                <li>The more guesses you have used in one round, the fewer points you will receive.</li>
+                                <li> If more than 30 seconds are spent in one round, your points will be deducted.</li>
+                            </ul>
+                        </fieldset>
+                    </div>
+                    <div class="middle"><button id="btnStart" class="btn btn-primary">Start</button></div>
                 </div>
             </div>
             <div id="row_gameRound" class="row" style="display:none">
@@ -22,19 +33,16 @@
                                                      placeholder="Input 4 digits only">
                     <button id="btnGuess" class="btn btn-info">Guess!</button>
                 </div>
-                <div class="col-md-12">
-                    <span id="notes" style="color: blue"><b>Note: </b>(1). You need to play 5 rounds to complete one game. (2). In each round, you will have up to 10 guesses. (3). The more guesses you have used in one round, the fewer points you will receive. (4). If more than 30 seconds is spent in one round, your points will be deducted.</span>
-                </div>
                 <div class="col-md-12 middle">
-                    <span id="guessPoints" style="color: red"></span>
+                    <span id="guessPoints" style="color: blue"></span>
                 </div>
                 <div class="col-md-12 middle">
                     <table class="table">
                         <thead>
                         <tr>
-                            <td></td>
-                            <td><b>Guess</b></td>
-                            <td><b>Result</b></td>
+                            <th></th>
+                            <th>Guess</th>
+                            <th>Result</th>
                         </tr>
                         </thead>
                         <tbody id="guessTableBody"><tr><td colspan="3">Round 1 has started!</td></tr></tbody>
@@ -101,7 +109,7 @@
                 var roundCount = jsonData['roundData']['roundCount'];
                 var correctness = jsonData['roundData']['correctness'];
 
-                jQuery('#guessPoints').text('Your total points received: '+totalPoints);
+                jQuery('#guessPoints').text('Your current points received: '+totalPoints);
 
                 jQuery('<tr><td>' + guessCount + '</td><td>' + jQuery('#guess').val() + '</td><td>' + resultText + '</td></tr>').prependTo('#guessTableBody');
                 jQuery('#guess').val('');
