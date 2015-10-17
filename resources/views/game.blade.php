@@ -33,8 +33,8 @@
                         <thead>
                         <tr>
                             <td></td>
-                            <td>Guess</td>
-                            <td>Result</td>
+                            <td><b>Guess</b></td>
+                            <td><b>Result</b></td>
                         </tr>
                         </thead>
                         <tbody id="guessTableBody"></tbody>
