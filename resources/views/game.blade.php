@@ -37,7 +37,7 @@
                             <td><b>Result</b></td>
                         </tr>
                         </thead>
-                        <tbody id="guessTableBody"></tbody>
+                        <tbody id="guessTableBody"><tr><td colspan="3">Round 1 has started!</td></tr></tbody>
                     </table>
                 </div>
             </div>
