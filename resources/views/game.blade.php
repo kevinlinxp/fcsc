@@ -22,8 +22,8 @@
                                                      placeholder="Input 4 digits only">
                     <button id="btnGuess" class="btn btn-info">Guess!</button>
                 </div>
-                <div class="col-md-12 middle">
-                    <span id="notes" style="color: blue"><b>Note: </b>1. You need to play 5 rounds to complete one game. 2. In each round, you will have up to 10 guesses. 3. The more guesses you have used in one round, the fewer points you will receive. 4. If more than 30 seconds is spent in one round, your points will be deducted.</span>
+                <div class="col-md-12">
+                    <span id="notes" style="color: blue"><b>Note: </b>(1). You need to play 5 rounds to complete one game. (2). In each round, you will have up to 10 guesses. (3). The more guesses you have used in one round, the fewer points you will receive. (4). If more than 30 seconds is spent in one round, your points will be deducted.</span>
                 </div>
                 <div class="col-md-12 middle">
                     <span id="guessPoints" style="color: red"></span>
