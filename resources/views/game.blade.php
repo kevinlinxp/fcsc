@@ -135,10 +135,11 @@
 
         jQuery(document).ready(function () {
             jQuery('#btnStart').click(function () {
-                var confirmed = confirm('Once start, you will have to wait for another 6 hours for starting the next game. Confirm to start?');
-                if (confirmed) {
-                    ajaxStart();
-                }
+                // var confirmed = confirm('Once start, you will have to wait for another 6 hours for starting the next game. Confirm to start?');
+                // if (confirmed) {
+                //     ajaxStart();
+                // }
+				ajaxStart();
             });
 
             jQuery('#btnGuess').click(function () {
