@@ -58,12 +58,12 @@ class GameController extends Controller
 
         // Time check, should be more than 6 hrs since last play
         $lastPlayed = Carbon::parse($student['lastPlayed']);
-        if (Carbon::now()->diffInSeconds($lastPlayed) <= 16) {
-            return response()->json([
-                'result' => 'limited',
-                'reason' => 'not time yet'
-            ]);
-        }
+        // if (Carbon::now()->diffInSeconds($lastPlayed) <= 16) {
+        //     return response()->json([
+        //         'result' => 'limited',
+        //         'reason' => 'not time yet'
+        //     ]);
+        // }
         $student['lastPlayed'] = Carbon::now();
         $student->save();
 
