@@ -8,11 +8,11 @@
 
 Route::get('/', 'PageController@home');
 
-Route::get('/contact', 'PageController@contact');
+//Route::get('/contact', 'PageController@contact');
 
-Route::get('/about', 'PageController@about');
+//Route::get('/about', 'PageController@about');
 
-Route::get('/prepare', 'GameController@prepare');
+Route::get('/game', 'GameController@toGame');
 
 Route::post('/start', 'GameController@asyncStartGame');
 

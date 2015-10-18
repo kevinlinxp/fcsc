@@ -128,20 +128,20 @@
 
                 if (correctness) {
                     if (roundCount < round_limit) {
-                        jQuery('<tr><td colspan="3">You received ' + roundPoints + ' points in this round!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('<tr><td colspan="3">Round ' + (roundCount + 1) + ' has started!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3" style="color:green">You received ' + roundPoints + ' points in this round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3" style="color:blue">Round ' + (roundCount + 1) + ' has started!</td></tr>').prependTo('#guessTableBody');
                     } else {
-                        jQuery('<tr><td colspan="3">You received ' + roundPoints + ' points in this final round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3" style="color:green">You received ' + roundPoints + ' points in this final round!</td></tr>').prependTo('#guessTableBody');
                         endGame();
                     }
                 }
                 else if (guessCount % guess_limit == 0) {
                     if (roundCount < round_limit) {
-                        jQuery('<tr><td colspan="3">You have reached guess number limit in this round!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('<tr><td colspan="3">Round ' + (roundCount + 1) + ' has started!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3" style="color:orange">You have reached guess number limit in this round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3" style="color:blue">Round ' + (roundCount + 1) + ' has started!</td></tr>').prependTo('#guessTableBody');
                     }
                     else {
-                        jQuery('<tr><td colspan="3">You reach guess number limit in this final round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3" style="color:orange">You have reached guess number limit in this final round!</td></tr>').prependTo('#guessTableBody');
                         endGame();
                     }
                 }

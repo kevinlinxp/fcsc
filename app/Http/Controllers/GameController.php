@@ -23,7 +23,7 @@ class GameController extends Controller
         return env('APP_DEBUG', true);
     }
 
-    public function prepare(Request $request)
+    public function toGame(Request $request)
     {
         if (GameController::isGameEnded()) {
             // TODO redirect
@@ -150,6 +150,13 @@ class GameController extends Controller
 
         $guess = $request->input('guess');
         $currentGame = $request->session()->get(GameController::$KEY_CURRENT_GAME);
+        if ($currentGame->getRoundCount() >= 6) {
+            return response()->json([
+                'result' => 'error',
+                'reason' => 'Hey buddy, this game has ended.'
+            ]);
+        }
+
         $guessResult = $currentGame->guess($guess);
         $roundCount = $currentGame->getRoundCount();
         $guessCount = $currentGame->getRoundGuessCount();

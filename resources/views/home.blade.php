@@ -25,7 +25,7 @@
                 <div class="col-md-8">
                     <h3 class="middle">Enter your Student ID and Go!</h3>
 
-                    <form id="startForm" class="form-horizontal" action="/prepare" method="get">
+                    <form id="startForm" class="form-horizontal" action="game" method="get">
                         <fieldset>
                             <!--<legend>Legend</legend>-->
                             <div class="form-group">
