@@ -41,6 +41,8 @@ class Game
 
     public function guess($studentGuess)
     {
+        $this->round_guessed_count++;
+
         $a = 0;
         $b = 0;
 
@@ -56,7 +58,6 @@ class Game
         $this->round_correctness = ($a == 4);
 
         if (!$this->round_correctness) {
-            $this->round_guessed_count++;
         }
 
         return $a . 'A' . $b . 'B';
@@ -80,11 +81,14 @@ class Game
 
     public function completeCurrentRound()
     {
-        $this->round_points = (10 - $this->round_guessed_count);
+        $this->round_points = (11 - $this->round_guessed_count);
 
         $elapsedSeconds = Carbon::now()->diffInSeconds($this->round_start_ts);
         $this->round_points = max($this->round_points - floor($elapsedSeconds / 30), 0);
 
+        if(!$this->round_correctness) {
+            $this->round_points--;
+        }
         $this->total_points += $this->round_points;
     }
 
