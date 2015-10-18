@@ -85,7 +85,7 @@
                     for (var index in jsonData) {
                         var studentInfo = jsonData[index];
                         var recordDate = '1970-01-01 00:00:00' == studentInfo.recordDate ? '--' : studentInfo.recordDate;
-                        jQuery('<tr><td>' + (index + 1) + '</td><td>' + studentInfo.firstName + ' ' + studentInfo.lastName + '</td><td>' + studentInfo.highestMark + '</td><td>' + recordDate + ' </td></tr>').appendTo('#rankTableBody');
+                        jQuery('<tr><td>' + (parseInt(index) + 1) + '</td><td>' + studentInfo.firstName + ' ' + studentInfo.lastName + '</td><td>' + studentInfo.highestMark + '</td><td>' + recordDate + ' </td></tr>').appendTo('#rankTableBody');
                     }
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
