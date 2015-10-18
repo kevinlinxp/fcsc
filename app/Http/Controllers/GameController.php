@@ -10,12 +10,22 @@ use App\Http\Requests;
 
 class GameController extends Controller
 {
-    //public static $END_DATE = Carbon::createFromFormat("2015");
     public static $KEY_CURRENT_STUDENT_ID = "KEY_CURRENT_STUDENT_ID";
     public static $KEY_CURRENT_GAME = "KEY_CURRENT_GAME";
 
+    public static function isGameEnded()
+    {
+        return Carbon::now()->gt(Carbon::createFromFormat('Y-m-d H:i:s', env('END_DATE')));
+    }
+
     public function prepare(Request $request)
     {
+        if (GameController::isGameEnded()) {
+            // TODO redirect
+            echo "oops";
+            exit();
+        }
+
         if ($request->isMethod('get')) {
             $studentId = $request->input('studentId');
             $student = Student::find($studentId);
@@ -32,6 +42,13 @@ class GameController extends Controller
 
     public function asyncStartGame(Request $request)
     {
+        if (GameController::isGameEnded()) {
+            return response()->json([
+                'result' => 'error',
+                'reason' => 'Game ended.'
+            ]);
+        }
+
         // Must be ajax post request
         if (!$request->ajax() || !$request->isMethod('post')) {
             // TODO give error response
@@ -103,6 +120,13 @@ class GameController extends Controller
 
     public function asyncGuess(Request $request)
     {
+        if (GameController::isGameEnded()) {
+            return response()->json([
+                'result' => 'error',
+                'reason' => 'Game ended.'
+            ]);
+        }
+
         // Must be ajax post request
         if (!$request->ajax() || !$request->isMethod('post')) {
             // TODO give error response

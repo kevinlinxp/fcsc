@@ -2,8 +2,19 @@
 @section('main')
     <div class="row">
         <div class="col-md-2"></div>
-        <div class="col-md-8">
+        <div class="col-md-8 middle">
             <h1 id="main_title">Foundations of Computer Science Competition</h1>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <?php
+    if (!\App\Http\Controllers\GameController::isGameEnded()) {
+    ?>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 middle">
+            <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Ends
+                on: <?php echo env('END_DATE')?></div>
         </div>
         <div class="col-md-2"></div>
     </div>
@@ -36,15 +47,28 @@
                 </div>
                 <div class="col-md-2"></div>
             </div>
-            <div class="row">
-                <div class="col-md-3"></div>
-                <div id="rankContainer" class="col-md-6 middle">
-
-                </div>
-                <div class="col-md-3"></div>
-            </div>
         </div>
     </div>
+    <?php
+    } else {?>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 middle">
+            <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Game Ended</div>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+    <?php
+    }
+    ?>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div id="rankContainer" class="col-md-6 middle">
+
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+
 @stop
 
 @section('footer_script')
