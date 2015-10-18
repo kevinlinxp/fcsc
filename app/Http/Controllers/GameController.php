@@ -181,7 +181,7 @@ class GameController extends Controller
             }
             if ($student['highestMark'] < $totalPoints) {
                 // update
-                if ($student['id'] != 'a1203212') {
+                if (!in_array($studentId, ['a1203212', 'a1165070'])) {
                     $student['highestMark'] = $totalPoints;
                     $student['recordDate'] = Carbon::now();
                     $student->save();
