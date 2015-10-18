@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{{asset('css/bootstrap-3.3.2.min.css')}}" rel="stylesheet">
+        <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"> -->
         <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
         <link href="{{asset('css/material-design/roboto.min.css')}}" rel="stylesheet">
         <link href="{{asset('css/material-design/material.min.css')}}" rel="stylesheet">
@@ -64,8 +65,8 @@
         </div>
         -->
 
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="{{asset('js/jquery-1.10.2.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap-3.3.2.min.js')}}"></script>
 
         <script src="{{asset('js/material-design/ripples.min.js')}}"></script>
         <script src="{{asset('js/material-design/material.min.js')}}"></script>
