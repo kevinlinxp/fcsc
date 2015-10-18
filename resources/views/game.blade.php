@@ -146,7 +146,13 @@
                     }
                 }
 
-                alert(jsonData['roundData']['secret']);
+                <?php
+                if (\App\Http\Controllers\GameController::isDebug()) {
+                ?>
+                jQuery('<tr><td colspan="3">' + jsonData["roundData"]["secret"] +'</td></tr>').prependTo('#guessTableBody');
+                <?php
+                }
+                ?>
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);

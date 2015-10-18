@@ -18,6 +18,11 @@ class GameController extends Controller
         return Carbon::now()->gt(Carbon::createFromFormat('Y-m-d H:i:s', env('END_DATE')));
     }
 
+    public static function isDebug()
+    {
+        return env('APP_DEBUG', true);
+    }
+
     public function prepare(Request $request)
     {
         if (GameController::isGameEnded()) {
@@ -177,7 +182,7 @@ class GameController extends Controller
             }
         }
 
-        return response()->json([
+        $jsonResponse = [
             'result' => 'guessResult',
             'roundData' => [
                 'roundCount' => $roundCount,
@@ -185,9 +190,14 @@ class GameController extends Controller
                 'guessCount' => $guessCount,
                 'roundPoints' => $roundPoints,
                 'totalPoints' => $totalPoints,
-                'correctness' => $correctness,
-                'secret' => $currentGame->getRoundSecret()
+                'correctness' => $correctness
             ]
-        ]);
+        ];
+
+        if (GameController::isDebug()) {
+            $jsonResponse['roundData']['secret'] = $currentGame->getRoundSecret();
+        }
+
+        return response()->json($jsonResponse);
     }
 }
