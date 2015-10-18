@@ -50,7 +50,7 @@ class Game
             $index = strpos($this->round_secret, $studentGuess{$i});
             if ($index === $i) {
                 $a++;
-            } else if(is_numeric($index)) {
+            } else if (is_numeric($index)) {
                 $b++;
             }
         }
@@ -63,19 +63,23 @@ class Game
         return $a . 'A' . $b . 'B';
     }
 
-    public function getRoundPoints(){
+    public function getRoundPoints()
+    {
         return $this->round_points;
     }
 
-    public function getTotalPoints(){
+    public function getTotalPoints()
+    {
         return $this->total_points;
     }
 
-    public function getCorrectness(){
+    public function getCorrectness()
+    {
         return $this->round_correctness;
     }
 
-    public function getRoundGuessCount() {
+    public function getRoundGuessCount()
+    {
         return $this->round_guessed_count;
     }
 
@@ -86,8 +90,8 @@ class Game
         $elapsedSeconds = Carbon::now()->diffInSeconds($this->round_start_ts);
         $this->round_points = max($this->round_points - floor($elapsedSeconds / 30), 0);
 
-        if(!$this->round_correctness) {
-            $this->round_points--;
+        if (!$this->round_correctness) {
+            $this->round_points = 0;
         }
         $this->total_points += $this->round_points;
     }
@@ -106,7 +110,8 @@ class Game
         return $this->round_count;
     }
 
-    public function getRoundSecret() {
+    public function getRoundSecret()
+    {
         return $this->round_secret;
     }
 
