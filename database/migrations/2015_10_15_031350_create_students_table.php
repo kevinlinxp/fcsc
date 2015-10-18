@@ -20,6 +20,8 @@ class CreateStudentsTable extends Migration
             $table->string('lastName');
             $table->timestamp('lastPlayed');
             $table->integer('highestMark');
+            $table->timestamp('recordDate');
+
             $table->primary('id');
         });
     }

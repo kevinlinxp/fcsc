@@ -13,10 +13,14 @@
         <div class="col-md-6">
             <div id="row_toStart" class="row">
                 <div class="col-md-12">
-                    <div class="middle" style="font-size:18px">Last played: <span>{{$student['lastPlayed']}}</span></div>
+                    <div class="middle" style="font-size:18px">Last played:
+                        <span><?php echo $student['lastPlayed'] == '1970-01-01 00:00:00' ? 'N/A' : $student['lastPlayed']?></span>
+                    </div>
                     <div>
                         <fieldset class="scheduler-border">
-                            <legend class="scheduler-border middle" style="color:blue; width:60px; margin-bottom: 0px;">Note</legend>
+                            <legend class="scheduler-border middle" style="color:blue; width:60px; margin-bottom: 0px;">
+                                Note
+                            </legend>
                             <ul>
                                 <li>You need to play 5 rounds to complete one game.</li>
                                 <li>In each round, you will have up to 10 guesses.</li>
@@ -25,7 +29,9 @@
                             </ul>
                         </fieldset>
                     </div>
-                    <div class="middle"><button id="btnStart" class="btn btn-primary">Start</button></div>
+                    <div class="middle">
+                        <button id="btnStart" class="btn btn-primary">Start</button>
+                    </div>
                 </div>
             </div>
             <div id="row_gameRound" class="row" style="display:none">
@@ -45,7 +51,11 @@
                             <th>Result</th>
                         </tr>
                         </thead>
-                        <tbody id="guessTableBody"><tr><td colspan="3">Round 1 has started!</td></tr></tbody>
+                        <tbody id="guessTableBody">
+                        <tr>
+                            <td colspan="3">Round 1 has started!</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -57,6 +67,8 @@
     <script>
 
         var pattern = /^\d{4}$/;
+        var round_limit = 5;
+        var guess_limit = 10;
 
         function ajaxStart() {
             jQuery.ajax('start', {
@@ -109,39 +121,57 @@
                 var roundCount = jsonData['roundData']['roundCount'];
                 var correctness = jsonData['roundData']['correctness'];
 
-                jQuery('#guessPoints').text('Your current points received: '+totalPoints);
+                jQuery('#guessPoints').text('Your points received: ' + totalPoints);
 
                 jQuery('<tr><td>' + guessCount + '</td><td>' + jQuery('#guess').val() + '</td><td>' + resultText + '</td></tr>').prependTo('#guessTableBody');
                 jQuery('#guess').val('');
 
-                if(correctness){
-                    if(roundCount<5){
-                        jQuery('<tr><td colspan="3">Congratulations! You received ' + roundPoints  + ' points in this round!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('<tr><td colspan="3">Round ' + (roundCount+1) + ' has started!</td></tr>').prependTo('#guessTableBody');
-                    }
-                    else{
-                        jQuery('<tr><td colspan="3">Congratulations! You received ' + roundPoints  + ' points in this final round!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('<tr><td colspan="3">You have finished the game! See you!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('#btnGuess').prop('disabled',true);
+                if (correctness) {
+                    if (roundCount < round_limit) {
+                        jQuery('<tr><td colspan="3">You received ' + roundPoints + ' points in this round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3">Round ' + (roundCount + 1) + ' has started!</td></tr>').prependTo('#guessTableBody');
+                    } else {
+                        jQuery('<tr><td colspan="3">You received ' + roundPoints + ' points in this final round!</td></tr>').prependTo('#guessTableBody');
+                        endGame();
                     }
                 }
-                else if(guessCount % 10 == 0){
-                    if(roundCount < 5) {
-                        jQuery('<tr><td colspan="3">You reach guess number limit in this round!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('<tr><td colspan="3">Round ' + (roundCount+1) + ' has started!</td></tr>').prependTo('#guessTableBody');
+                else if (guessCount % guess_limit == 0) {
+                    if (roundCount < round_limit) {
+                        jQuery('<tr><td colspan="3">You have reached guess number limit in this round!</td></tr>').prependTo('#guessTableBody');
+                        jQuery('<tr><td colspan="3">Round ' + (roundCount + 1) + ' has started!</td></tr>').prependTo('#guessTableBody');
                     }
                     else {
                         jQuery('<tr><td colspan="3">You reach guess number limit in this final round!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('<tr><td colspan="3">You have finished the game! See you!</td></tr>').prependTo('#guessTableBody');
-                        jQuery('#btnGuess').prop('disabled',true);
+                        endGame();
                     }
                 }
+
+                alert(jsonData['roundData']['secret']);
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);
                 alert("Sorry, request failed due to: " + errorThrown);
             });
-            ;
+        }
+
+        function endGame() {
+            jQuery('<tr><td colspan="3">You have finished the game! Thank you!</td></tr>').prependTo('#guessTableBody');
+            jQuery('#btnGuess').prop('disabled', true);
+            jQuery('#guess').prop('disabled', true);
+            jQuery('<tr><td colspan="3"><a href="<?php echo URL::to('/'); ?>" style="font-size:18px">Return to Homepage</a></td></tr>').prependTo('#guessTableBody');
+        }
+
+        function guessOnSubmit() {
+            var guessValue = jQuery('#guess').val();
+            if (!pattern.test(guessValue)) {
+                alert('Please input 4 digits only.');
+                return;
+            }
+            else if (hasDuplicates(guessValue)) {
+                alert('Please input 4 different digits.');
+                return;
+            }
+            ajaxGuess(guessValue);
         }
 
         jQuery(document).ready(function () {
@@ -150,31 +180,24 @@
                 // if (confirmed) {
                 //     ajaxStart();
                 // }
-				ajaxStart();
+                ajaxStart();
             });
 
-            jQuery('#btnGuess').click(function () {
-                var guessValue = jQuery('#guess').val();
-                console.log(guessValue);
-                if (!pattern.test(guessValue)) {
-                    alert('Please input 4 digits only.');
-                    return;
-                }
-                else if(hasDuplicates(guessValue)){
-                    alert('Please input 4 different digits.');
-                    return;
-                }
-                ajaxGuess(guessValue);
-            });
+            jQuery('#btnGuess').click(guessOnSubmit);
 
+            jQuery('#guess').keydown(function (event) {
+                if (event.keyCode == 13) {
+                    guessOnSubmit();
+                }
+            });
         })
 
-        function hasDuplicates(array){
+        function hasDuplicates(array) {
             var valueSoFar = Object.create(null);
 
-            for (var i = 0; i < array.length; i++){
+            for (var i = 0; i < array.length; i++) {
                 var value = array[i];
-                if(value in valueSoFar) {
+                if (value in valueSoFar) {
                     return true;
                 }
 
@@ -197,12 +220,6 @@
         function reportError(errorData) {
             alert(errorData['result'] + ' ' + errorData['reason']);
         }
-
-        //function showAlert(title, message) {
-        //    var x = jQuery("<div class='alert'>Alert</div>");
-        //    $("#alertContainer").prepend(x);
-        //    x.slideDown(250).delay(3000).slideUp(250);
-        //}
 
     </script>
 @stop

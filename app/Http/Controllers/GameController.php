@@ -10,6 +10,7 @@ use App\Http\Requests;
 
 class GameController extends Controller
 {
+    //public static $END_DATE = Carbon::createFromFormat("2015");
     public static $KEY_CURRENT_STUDENT_ID = "KEY_CURRENT_STUDENT_ID";
     public static $KEY_CURRENT_GAME = "KEY_CURRENT_GAME";
 
@@ -89,7 +90,7 @@ class GameController extends Controller
             exit();
         }
 
-        $students = Student::where('highestMark', '>=', 0)->orderBy('highestMark','DESC')->get();
+        $students = Student::where('highestMark', '>=', 0)->orderBy('highestMark', 'DESC')->get();
         if (!$students) {
             return response()->json([
                 'result' => 'error',
@@ -127,7 +128,7 @@ class GameController extends Controller
         $roundPoints = 0;
         $totalPoints = $currentGame->getTotalPoints();
 
-        if($correctness || ($roundCount < 5 && $guessCount == 10)){
+        if ($correctness || ($roundCount < 5 && $guessCount == 10)) {
             $currentGame->completeCurrentRound();
             $roundPoints = $currentGame->getRoundPoints();
             $totalPoints = $currentGame->getTotalPoints();
@@ -142,11 +143,12 @@ class GameController extends Controller
                     'reason' => 'student data do not exist.'
                 ]);
             }
-            if($student['highestMark']<$totalPoints){
+            if ($student['highestMark'] < $totalPoints) {
                 // update
-                if($student['id'] != 'a1203212'){
-                   $student['highestMark'] = $totalPoints;
-                   $student->save();
+                if ($student['id'] != 'a1203212') {
+                    $student['highestMark'] = $totalPoints;
+                    $student['recordDate'] = Carbon::now();
+                    $student->save();
                 }
             }
         }
@@ -159,7 +161,8 @@ class GameController extends Controller
                 'guessCount' => $guessCount,
                 'roundPoints' => $roundPoints,
                 'totalPoints' => $totalPoints,
-                'correctness' => $correctness
+                'correctness' => $correctness,
+                'secret' => $currentGame->getRoundSecret()
             ]
         ]);
     }

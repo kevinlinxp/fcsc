@@ -14,14 +14,15 @@
                 <div class="col-md-8">
                     <h3 class="middle">Enter your Student ID and Go!</h3>
 
-                    <form class="form-horizontal" action="/prepare" method="get">
+                    <form id="startForm" class="form-horizontal" action="/prepare" method="get">
                         <fieldset>
                             <!--<legend>Legend</legend>-->
                             <div class="form-group">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
                                     <input type="text" class="form-control" name="studentId"
-                                           placeholder="Student ID (Starts with 'a')">
+                                           placeholder="Student ID (Starts with 'a')"
+                                           onkeydown="if (event.keyCode == 13) {document.forms[0].submit();}">
                                 </div>
                                 <div class="col-md-4"></div>
                             </div>
@@ -52,19 +53,20 @@
             jQuery.ajax('ranking', {
                 method: 'GET',
             }).done(function (jsonData, textStatus, jqXHR) {
+                console.log(jsonData);
                 jQuery('#rankContainer').empty();
                 if (jsonData.length > 0) {
                     jQuery('<h3 class="middle">Ranking</h3>').appendTo('#rankContainer');
                     jQuery('<table class="table"><thead class="middle"><th>#</th><th>Name</th><th>Score</th><th>Date</th></thead><tbody id="rankTableBody"></tbody></table>').appendTo('#rankContainer');
                     for (var index in jsonData) {
                         var studentInfo = jsonData[index];
-                        jQuery('<tr><td>'+index+'</td><td>' + studentInfo.firstName + ' ' + studentInfo.lastName + '</td><td>' + studentInfo.highestMark + '</td><td>' + studentInfo.lastPlayed + ' </td></tr>').appendTo('#rankTableBody');
+                        var recordDate = '1970-01-01 00:00:00' == studentInfo.recordDate ? '--' : studentInfo.recordDate;
+                        jQuery('<tr><td>' + index + '</td><td>' + studentInfo.firstName + ' ' + studentInfo.lastName + '</td><td>' + studentInfo.highestMark + '</td><td>' + recordDate + ' </td></tr>').appendTo('#rankTableBody');
                     }
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
                 console.log(errorThrown);
             });
-            ;
         }
 
         jQuery(document).ready(function () {

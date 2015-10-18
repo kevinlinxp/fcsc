@@ -24,7 +24,7 @@ class Game
         return implode("", $result);
     }
 
-    public $round_secret;
+    private $round_secret;
 
     private $round_count;
     private $round_start_ts;
@@ -43,31 +43,21 @@ class Game
     {
         $this->round_guessed_count++;
 
-        $A = 0;
-        $B = 0;
+        $a = 0;
+        $b = 0;
 
         for ($i = 0; $i < 4; $i++) {
             $index = strpos($this->round_secret, $studentGuess{$i});
-            //if(is_numeric($index)){
-            //    continue;
-            //}
             if ($index === $i) {
-                $A++;
+                $a++;
             } else if(is_numeric($index)) {
-                $B++;
+                $b++;
             }
-//            if (!$index ) {
-//                if ($index == $i) {
-//                    $A++;
-//                } elseif ($index >= 0) {
-//                    $B++;
-//                }
-//            }
         }
 
-        $this->round_correctness = ($A == 4);
+        $this->round_correctness = ($a == 4);
 
-        return $A . 'A' . $B . 'B';
+        return $a . 'A' . $b . 'B';
     }
 
     public function getRoundPoints(){
@@ -108,6 +98,10 @@ class Game
     public function getRoundCount()
     {
         return $this->round_count;
+    }
+
+    public function getRoundSecret() {
+        return $this->round_secret;
     }
 
 }
