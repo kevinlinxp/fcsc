@@ -114,7 +114,7 @@ class GameController extends Controller
 
         //$students = Student::where('highestMark', '>', 0)->orderBy('highestMark', 'DESC')->get();
         //recordDate ascending order first, and then highestMark descending order
-        $students = Student::where('highestMark', '>', 0)->orderBy('recordDate', 'ASC')->orderBy('highestMark', 'DESC')->get();
+        $students = Student::where('highestMark', '>', 0)->orderBy('highestMark', 'DESC')->orderBy('recordDate', 'ASC')->get();
         if (!$students) {
             return response()->json([
                 'result' => 'error',
