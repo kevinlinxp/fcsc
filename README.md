@@ -76,11 +76,6 @@ composer dump-autoload
 php artisan migrate:refresh --seed
 ```
 
-##### Start the service:
-```sh
-php -S your.ip.address:port -t public &
-```
-
 ##### Prepare the .env file:
 ```sh
 vi .env
@@ -104,6 +99,11 @@ MAIL_ENCRYPTION=null
 
 END_DATE=2018-10-18 13:30:00
 DEDUCT_ROUND_POINT_INTERVAL=20
+```
+
+##### Start the service:
+```sh
+php -S your.ip.address:port -t public &
 ```
 
 ##### Visit the site via:
