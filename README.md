@@ -80,3 +80,6 @@ php artisan migrate:refresh --seed
 ```sh
 php -S your.ip.address:port -t public &
 ```
+
+##### Visit the site via:
+http://your.ip.address:port
