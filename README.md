@@ -34,7 +34,7 @@ composer install
 ```sh
 vi database/seeds/StudentTableSeeder.php
 ```
-Paste the following php script to the editor, modifying the data as needed:
+Paste the following php script to the editor, and modify the data as needed:
 ```php
 <?php
 
@@ -74,7 +74,7 @@ class StudentTableSeeder extends Seeder
 ```sh
 vi .env
 ```
-Paste the following text to the editor, modify the configiration as needed (For example, to disable the debug mode, which will show the secret number as you guess, please change to "APP_DEBUG=false". Normally you may need to change END_DATE as well.):
+Paste the following text to the editor, modify the configiration as needed (For example, to disable the debug mode, which will show the secret number as you guess, please change to "APP_DEBUG=false". Apart from that, you also need to change END_DATE according your needs.):
 ```txt
 APP_ENV=local
 APP_DEBUG=true
