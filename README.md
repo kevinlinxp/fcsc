@@ -103,8 +103,15 @@ php artisan migrate:refresh --seed
 
 ##### Start the service:
 ```sh
+php -S your.ip.address:port -t public
+```
+
+or
+
+```sh
 php -S your.ip.address:port -t public &
 ```
+
 
 ##### Visit the site via:
 http://your.ip.address:port
