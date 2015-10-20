@@ -29,9 +29,48 @@ cd fcsc
 composer install
 ```
 
-##### Set-up database:
+##### Prepare database seeder:
 ```sh
 vi database/seeds/StudentTableSeeder.php
+```
+Paste the following php script to the editor, modifying the data as needed:
+```php
+<?php
+
+use Illuminate\Database\Seeder;
+
+class StudentTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $students = [
+            ["id" => "id_001", "firstName" => "Louie", "lastName" => "Qin"],
+            ["id" => "id_002", "firstName" => "Keith", "lastName" => "Lin"],
+            ["id" => "id_003", "firstName" => "Minming", "lastName" => "Qian"],
+        ];
+
+        foreach ($students as $student) {
+            DB::table('students')->insert([
+                'id' => $student['id'],
+                'firstName' => $student['firstName'],
+                'lastName' => $student['lastName'],
+                'lastPlayed' => \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', '1970-01-01 00:00:00'),
+                'highestMark' => 0,
+                'recordDate' => \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', '1970-01-01 00:00:00')
+            ]);
+        }
+    }
+}
+
+```
+
+##### Set-up database:
+```sh
 touch /root/fcsc/storage/database.sqlite
 composer dump-autoload
 php artisan migrate:refresh --seed
