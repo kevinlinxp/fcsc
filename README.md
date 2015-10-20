@@ -71,7 +71,7 @@ class StudentTableSeeder extends Seeder
 
 ##### Set-up database:
 ```sh
-touch /root/fcsc/storage/database.sqlite
+touch storage/database.sqlite
 composer dump-autoload
 php artisan migrate:refresh --seed
 ```
