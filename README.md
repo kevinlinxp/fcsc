@@ -109,18 +109,18 @@ php artisan key:generate
 
 
 ##### Start the service:
-To test on local machine:
+To test on a local machine:
 ```sh
 php -S localhost:8888 -t public
 ```
 
-To run the service on a server and open to public:
+Or to run the service on a server and open to public:
 
 ```sh
 php -S your.ip.address:port -t public &
 ```
 
-or something like:
+Or something like:
 
 ```sh
 php -S 129.127.10.84:80 -t public &
