@@ -53,7 +53,7 @@
                         </thead>
                         <tbody id="guessTableBody">
                         <tr>
-                            <td colspan="3">Round 1 has started!</td>
+                            <td colspan="3" style="color:blue">Round 1 has started!</td>
                         </tr>
                         </tbody>
                     </table>
