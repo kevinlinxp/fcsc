@@ -1,9 +1,9 @@
-## fcsc
--------
+fcsc
+====
 Foundations of Computer Science Competition built based on Laravel 5
 
-### Installation on a fresh Ubuntu 14.04 server:
------------------------------------------------
+Installation on a fresh Ubuntu 14.04 server:
+--------------------------------------------
 ##### Install sqlite, php and git:
 ```sh
 sudo apt-get install sqlite3
