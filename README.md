@@ -81,5 +81,30 @@ php artisan migrate:refresh --seed
 php -S your.ip.address:port -t public &
 ```
 
+##### Prepare the .env file:
+```sh
+vi .env
+```
+Paste the following text to the editor, modifying the configiration as needed:
+```txt
+APP_ENV=local
+APP_DEBUG=true
+APP_KEY=ffvR5FcYprwdZaHsMc4RMQASgzDLSBfF
+
+CACHE_DRIVER=file
+SESSION_DRIVER=file
+QUEUE_DRIVER=sync
+
+MAIL_DRIVER=smtp
+MAIL_HOST=mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+
+END_DATE=2018-10-18 13:30:00
+DEDUCT_ROUND_POINT_INTERVAL=20
+```
+
 ##### Visit the site via:
 http://your.ip.address:port
