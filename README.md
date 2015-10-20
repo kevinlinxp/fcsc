@@ -1,5 +1,5 @@
 ## fcsc
-------
+-------
 Foundations of Computer Science Competition built based on Laravel 5
 
 ### Installation on a fresh Ubuntu 14.04 server:
