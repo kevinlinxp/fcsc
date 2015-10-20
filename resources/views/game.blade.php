@@ -25,7 +25,7 @@
                                 <li>You need to play 5 rounds to complete one game.</li>
                                 <li>In each round, you will have up to 10 guesses.</li>
                                 <li>The more guesses you have used in one round, the fewer points you will receive.</li>
-                                <li> If more than 30 seconds are spent in one round, your points will be deducted.</li>
+                                <li>If more than <?php echo \App\Game::getDeductRoundPointInterval();?> seconds are spent in one round, your points will be deducted.</li>
                             </ul>
                         </fieldset>
                     </div>

@@ -24,6 +24,10 @@ class Game
         return implode("", $result);
     }
 
+    public static function getDeductRoundPointInterval() {
+        return intval(env('DEDUCT_ROUND_POINT_INTERVAL'));
+    }
+
     private $round_secret;
 
     private $round_count;
@@ -88,7 +92,7 @@ class Game
         $this->round_points = (11 - $this->round_guessed_count);
 
         $elapsedSeconds = Carbon::now()->diffInSeconds($this->round_start_ts);
-        $this->round_points = max($this->round_points - floor($elapsedSeconds / 30), 0);
+        $this->round_points = max($this->round_points - floor($elapsedSeconds / Game::getDeductRoundPointInterval()), 0);
 
         if (!$this->round_correctness) {
             $this->round_points = 0;

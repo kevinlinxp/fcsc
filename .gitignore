@@ -7,3 +7,4 @@ Homestead.json
 storage/database.sqlite
 database/seeds/StudentTableSeeder.php
 .idea
+.DS_Store
