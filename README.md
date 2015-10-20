@@ -7,7 +7,8 @@ Installation on a fresh Ubuntu 14.04 server:
 ##### Install sqlite, php and git:
 ```sh
 sudo apt-get install sqlite3
-sudo apt-get install php5 php5-sqlite
+sudo apt-get install php5
+sudo apt-get install php5-sqlite
 sudo apt-get install git
 ```
 
@@ -100,6 +101,12 @@ touch storage/database.sqlite
 composer dump-autoload
 php artisan migrate:refresh --seed
 ```
+
+##### Set-up encripted key:
+```sh
+php artisan key:generate
+```
+
 
 ##### Start the service:
 ```sh
