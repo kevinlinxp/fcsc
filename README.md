@@ -74,7 +74,7 @@ class StudentTableSeeder extends Seeder
 ```sh
 vi .env
 ```
-Paste the following text to the editor, modifying the configiration as needed:
+Paste the following text to the editor, modify the configiration as needed (For example, to disable the debug mode, which will show the secret number as you guess, please change to "APP_DEBUG=false"):
 ```txt
 APP_ENV=local
 APP_DEBUG=true
