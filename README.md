@@ -2,7 +2,8 @@ fcsc
 ====
 Foundations of Computer Science Competition built based on Laravel 5.
 
-Living site: http://159.203.247.157/, test account: a1203212
+Living site: http://159.203.247.157/
+test account: a1203212
 
 Installation on a fresh Ubuntu 14.04 server:
 --------------------------------------------
@@ -140,4 +141,4 @@ or
 
 http://129.127.10.84
 
-You can then login and start directly using a user id (id_001, id_002, id_003 in the case of this instruction) according to your StudentTableSeeder.php file.
+You can then login and start a game using a user id (id_001, id_002, id_003 in the case of this instruction) according to your StudentTableSeeder.php file.
