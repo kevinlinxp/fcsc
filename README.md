@@ -140,3 +140,4 @@ or
 
 http://129.127.10.84
 
+You can then login and start directly using a user id (id_001, id_002, id_003 in the case of this instruction) according to your StudentTableSeeder.php file.
