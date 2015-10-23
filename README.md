@@ -3,7 +3,8 @@ fcsc
 Foundations of Computer Science Competition built based on Laravel 5.
 
 Living site: http://159.203.247.157/
-test account: a1203212
+
+Living test account: a1203212
 
 Installation on a fresh Ubuntu 14.04 server:
 --------------------------------------------
