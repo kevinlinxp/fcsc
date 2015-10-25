@@ -19,7 +19,7 @@ class AjaxGameRequest extends Request
      *
      * @return bool
      */
-    protected function authorize()
+    public function authorize()
     {
         return $this->ajax();
     }

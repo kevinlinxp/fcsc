@@ -79,6 +79,14 @@
                 $.material.init();
             });
 
+            function reportError(jqXHR) {
+                @if(\App\Http\Controllers\GameController::isDebug())
+                    console.log(jqXHR);
+                showLaravelErrorStack(jqXHR.responseText);
+                @endif
+                alert("Sorry, request failed due to: " + jqXHR.status + " - " + jqXHR.statusText);
+            }
+
             @if (\App\Http\Controllers\GameController::isDebug())
             function showLaravelErrorStack(html) {
                 $('#debug').html(html);
