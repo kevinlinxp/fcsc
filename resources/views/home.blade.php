@@ -7,59 +7,68 @@
         </div>
         <div class="col-md-2"></div>
     </div>
-    <?php
-    if (!\App\Http\Controllers\GameController::isGameEnded()) {
-    ?>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 middle">
-            <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Ends
-                on: <?php echo env('END_DATE')?></div>
+    @if (!\App\Http\Controllers\GameController::isGameEnded())
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 middle">
+                <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Ends
+                    on: <?php echo env('END_DATE')?></div>
+            </div>
+            <div class="col-md-2"></div>
         </div>
-        <div class="col-md-2"></div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <h3 class="middle">Enter your Student ID and Go!</h3>
-                    <form id="startForm" class="form-horizontal" action="game" method="get">
-                        <fieldset>
-                            <!--<legend>Legend</legend>-->
-                            <div class="form-group">
-                                <div class="col-md-4"></div>
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" name="studentId"
-                                           placeholder="Student ID (Starts with 'a')"
-                                           onkeydown="if (event.keyCode == 13) {document.forms[0].submit();}">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <h3 class="middle">Enter your Student ID and Go!</h3>
+
+                        <form id="startForm" class="form-horizontal" action="game" method="get">
+                            <fieldset>
+                                <!--<legend>Legend</legend>-->
+                                <div class="form-group">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" name="studentId"
+                                               placeholder="Student ID (Starts with 'a')"
+                                               onkeydown="if (event.keyCode == 13) {document.forms[0].submit();}">
+                                    </div>
+                                    <div class="col-md-4"></div>
                                 </div>
-                                <div class="col-md-4"></div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-12 middle">
-                                    <button type="submit" class="btn btn-primary">Go!</button>
+                                @if (count($errors) > 0)
+                                    <div class="form-group">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4 alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                @endif
+                                <div class="form-group">
+                                    <div class="col-md-12 middle">
+                                        <button type="submit" class="btn btn-primary">Go!</button>
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                    </form>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="col-md-2"></div>
                 </div>
-                <div class="col-md-2"></div>
             </div>
         </div>
-    </div>
-    <?php
-    } else {?>
-    <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8 middle">
-            <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Game Ended</div>
+    @else
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 middle">
+                <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Game Ended</div>
+            </div>
+            <div class="col-md-2"></div>
         </div>
-        <div class="col-md-2"></div>
-    </div>
-    <?php
-    }
-    ?>
+    @endif
     <div class="row">
         <div class="col-md-3"></div>
         <div id="rankContainer" class="col-md-6 middle">

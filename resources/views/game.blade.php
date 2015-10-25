@@ -1,6 +1,5 @@
 @extends('layout')
 @section('main')
-    <div id="tempSecret"></div>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
@@ -14,7 +13,7 @@
             <div id="row_toStart" class="row">
                 <div class="col-md-12">
                     <div class="middle" style="font-size:18px">Last played:
-                        <span><?php echo $student['lastPlayed'] == '1970-01-01 00:00:00' ? 'N/A' : $student['lastPlayed']?></span>
+                        <span>{{$student['lastPlayed'] == '1970-01-01 00:00:00' ? 'N/A' : $student['lastPlayed']}}</span>
                     </div>
                     <div>
                         <fieldset class="scheduler-border">
@@ -25,7 +24,7 @@
                                 <li>You need to play 5 rounds to complete one game.</li>
                                 <li>In each round, you will have up to 10 guesses.</li>
                                 <li>The more guesses you have used in one round, the fewer points you will receive.</li>
-                                <li>If more than <?php echo \App\Game::getDeductRoundPointInterval();?> seconds are spent in one round, your points will be deducted.</li>
+                                <li>If more than {{\App\Game::getDeductRoundPointInterval()}} seconds are spent in one round, your points will be deducted.</li>
                             </ul>
                         </fieldset>
                     </div>
@@ -83,18 +82,16 @@
                 //    }
                 //},
             }).done(function (jsonData, textStatus, jqXHR) {
-                console.log(jsonData);
                 switch (jsonData['result']) {
                     case 'roundStarted':
                         startRound(jsonData['roundData']);
                         break;
                     default:
-                        reportError(jsonData);
+                        alert('unrecognized success result:' + jsonData['result']);
                         break;
                 }
             }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                alert("Sorry, request failed due to: " + errorThrown);
+                reportError(jqXHR);
             });
         }
 
@@ -111,8 +108,6 @@
                     'guess': guessValue
                 }
             }).done(function (jsonData, textStatus, jqXHR) {
-                console.log(jsonData);
-
                 var resultText = jsonData['roundData']['resultText'];
                 var guessCount = jsonData['roundData']['guessCount'];
                 var totalPoints = jsonData['roundData']['totalPoints'];
@@ -145,17 +140,12 @@
                     }
                 }
 
-                <?php
-                if (\App\Http\Controllers\GameController::isDebug()) {
-                ?>
+                @if (\App\Http\Controllers\GameController::isDebug())
                 jQuery('<tr><td colspan="3">' + jsonData["roundData"]["secret"] +'</td></tr>').prependTo('#guessTableBody');
-                <?php
-                }
-                ?>
+                @endif
 
             }).fail(function (jqXHR, textStatus, errorThrown) {
-                console.log(errorThrown);
-                alert("Sorry, request failed due to: " + errorThrown);
+                reportError(jqXHR);
             });
         }
 
@@ -163,7 +153,8 @@
             jQuery('<tr><td colspan="3">You have finished the game! Thank you!</td></tr>').prependTo('#guessTableBody');
             jQuery('#btnGuess').prop('disabled', true);
             jQuery('#guess').prop('disabled', true);
-            jQuery('<tr><td colspan="3"><a href="<?php echo URL::to('/'); ?>" style="font-size:18px">Return to Homepage</a></td></tr>').prependTo('#guessTableBody');
+            var homeURL = '{{url('/')}}';
+            jQuery('<tr><td colspan="3"><a href="'+homeURL+'" style="font-size:18px">Return to Homepage</a></td></tr>').prependTo('#guessTableBody');
         }
 
         function guessOnSubmit() {
@@ -222,8 +213,12 @@
             });
         }
 
-        function reportError(errorData) {
-            alert(errorData['result'] + ' ' + errorData['reason']);
+        function reportError(jqXHR) {
+            @if(\App\Http\Controllers\GameController::isDebug())
+                console.log(jqXHR);
+                showLaravelErrorStack(jqXHR.responseText);
+            @endif
+            alert("Sorry, request failed due to: " + jqXHR.status + " - " + jqXHR.statusText);
         }
 
     </script>

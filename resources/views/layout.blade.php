@@ -64,7 +64,9 @@
             </div>
         </div>
         -->
-
+        @if (\App\Http\Controllers\GameController::isDebug())
+        <div id="debug"></div>
+        @endif
         <script src="{{asset('js/jquery-1.10.2.min.js')}}"></script>
         <script src="{{asset('js/bootstrap-3.3.2.min.js')}}"></script>
 
@@ -76,6 +78,12 @@
                 // This command is used to initialize some elements and make them work properly
                 $.material.init();
             });
+
+            @if (\App\Http\Controllers\GameController::isDebug())
+            function showLaravelErrorStack(html) {
+                $('#debug').html(html);
+            }
+            @endif
         </script>
         @yield('footer_script')
     </body>
