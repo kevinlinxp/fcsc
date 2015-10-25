@@ -12,7 +12,7 @@
             <div class="col-md-2"></div>
             <div class="col-md-8 middle">
                 <div style="font-style:italic; font-size: 16px; color:blue; margin-top:10px;">Ends
-                    on: <?php echo env('END_DATE')?></div>
+                    on: {{env('END_DATE')}}
             </div>
             <div class="col-md-2"></div>
         </div>
