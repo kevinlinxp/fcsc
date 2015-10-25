@@ -71,6 +71,7 @@
         <script src="{{asset('js/material-design/ripples.min.js')}}"></script>
         <script src="{{asset('js/material-design/material.min.js')}}"></script>
         <script>
+            $.ajaxSetup({ headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' } });
             $(document).ready(function() {
                 // This command is used to initialize some elements and make them work properly
                 $.material.init();

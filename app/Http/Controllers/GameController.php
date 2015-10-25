@@ -80,7 +80,7 @@ class GameController extends Controller
         }
 
         // Time check, should be more than 6 hrs since last play
-        $lastPlayed = Carbon::parse($student['lastPlayed']);
+        // $lastPlayed = Carbon::parse($student['lastPlayed']);
         // if (Carbon::now()->diffInSeconds($lastPlayed) <= 16) {
         //     return response()->json([
         //         'result' => 'limited',
@@ -98,7 +98,6 @@ class GameController extends Controller
             'result' => 'roundStarted',
             'roundData' => [
                 'roundCount' => $currentGame->getRoundCount()
-                //'secret' => $currentGame->round_secret
             ]
         ]);
     }
@@ -114,7 +113,7 @@ class GameController extends Controller
 
         //$students = Student::where('highestMark', '>', 0)->orderBy('highestMark', 'DESC')->get();
         //highestMark descending order first, and then recordDate ascending order
-        $students = Student::where('highestMark', '>', 0)->orderBy('highestMark', 'DESC')->orderBy('recordDate', 'ASC')->get();
+        $students = Student::where('highestMark', '>', 0)->orderBy('highestMark', 'DESC')->oldest('recordDate')->get();
         if (!$students) {
             return response()->json([
                 'result' => 'error',

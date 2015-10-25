@@ -74,15 +74,14 @@
             jQuery.ajax('start', {
                 method: 'POST',
                 //data: {
-                // '_token': '{{ csrf_token() }}',
                 //    'studentId': '{{$student['id']}}'
                 //},
-                beforeSend: function (xhr) {
-                    var token = '{{ csrf_token() }}';
-                    if (token) {
-                        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
-                    }
-                },
+                //beforeSend: function (xhr) {
+                //    var token = '{{ csrf_token() }}';
+                //    if (token) {
+                //        return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+                //    }
+                //},
             }).done(function (jsonData, textStatus, jqXHR) {
                 console.log(jsonData);
                 switch (jsonData['result']) {
