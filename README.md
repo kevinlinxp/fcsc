@@ -2,8 +2,8 @@ fcsc
 ====
 [Bulls and Cows Game](https://en.wikipedia.org/wiki/Bulls_and_Cows) built based on Laravel 5, as a competition for the students enrolling course "Foundations of Computer Science" in the University of Adelaide.
 
-**Living site:** http://159.203.247.157/  
-**Living test account:** a1203212
+**Live site:** http://159.203.247.157/  
+**Live test account:** a1203212
 
 Installation on a fresh Ubuntu 14.04 server:
 --------------------------------------------
